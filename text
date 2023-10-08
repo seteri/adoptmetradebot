@@ -1,0 +1,37 @@
+import pyautogui
+import cv2
+import os
+
+folder_path = "pets"
+files_and_dirs = os.listdir(folder_path)
+file_names = [f for f in files_and_dirs if os.path.isfile(os.path.join(folder_path, f))]
+
+for img in file_names:
+    reference_image = cv2.imread('pets2/Screenshot_1.png')
+
+    target_image = cv2.imread('pets'+'/'+file_names[2])
+    result = cv2.matchTemplate(target_image, reference_image, cv2.TM_CCOEFF_NORMED)
+    min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(result)
+
+    print(min_val, max_val, min_loc, max_loc)
+
+    threshold = 0.8  # Adjust the threshold as needed
+
+    if max_val > threshold:
+        print("Reference image found."+ " " + img)
+        # You can use max_loc to get the coordinates where the reference image was found
+        x, y = max_loc
+        # You can perform actions based on the recognition here
+    else:
+        print("Reference image not found.")
+
+
+
+pyautogui.moveTo(1064,410, 1)
+pyautogui.keyDown('insert')
+pyautogui.click()
+
+pyautogui.dragTo(1314, 660, 2, button="left")
+pyautogui.hotkey("ctrl","s")
+pyautogui.keyDown('enter')
+
